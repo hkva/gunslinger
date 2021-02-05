@@ -690,6 +690,7 @@ uint32_t gs_platform_key_to_codepoint(gs_platform_keycode key)
         case GS_KEYCODE_LCTRL:          return GLFW_KEY_LEFT_CONTROL; break;
         case GS_KEYCODE_RCTRL:          return GLFW_KEY_RIGHT_CONTROL; break;
         case GS_KEYCODE_BSPACE:         return GLFW_KEY_BACKSPACE; break;
+        case GS_KEYCODE_BSLASH:         return GLFW_KEY_BACKSLASH; break;
         case GS_KEYCODE_QMARK:          return GLFW_KEY_SLASH; break;
         case GS_KEYCODE_TILDE:          return GLFW_KEY_GRAVE_ACCENT; break;
         case GS_KEYCODE_COMMA:          return GLFW_KEY_COMMA; break;
@@ -756,10 +757,9 @@ uint32_t gs_platform_key_to_codepoint(gs_platform_keycode key)
         case GS_KEYCODE_PAUSE:          return GLFW_KEY_PAUSE; break;
         case GS_KEYCODE_PRINT:          return GLFW_KEY_PRINT_SCREEN; break;
         case GS_KEYCODE_COUNT:          return GLFW_KEY_UNKNOWN; break;
+        // Shouldn't reach here
+        default: return GLFW_KEY_UNKNOWN;
     }
-
-    // Shouldn't reach here
-    return GLFW_KEY_UNKNOWN;
 }
 
 gs_platform_mouse_button_code __glfw_button_to_gs_mouse_button(s32 code)
