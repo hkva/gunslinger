@@ -218,7 +218,6 @@ bool gs_platform_key_down(gs_platform_keycode code)
 
 bool gs_platform_key_pressed(gs_platform_keycode code)
 {
-    gs_platform_input_t* input = __gs_input();
     if (gs_platform_key_down(code) && !gs_platform_was_key_down(code))
     {
         return true;
@@ -228,7 +227,6 @@ bool gs_platform_key_pressed(gs_platform_keycode code)
 
 bool gs_platform_key_released(gs_platform_keycode code)
 {
-    gs_platform_input_t* input = __gs_input();
     return (gs_platform_was_key_down(code) && !gs_platform_key_down(code));
 }
 
@@ -264,7 +262,6 @@ bool gs_platform_mouse_down(gs_platform_mouse_button_code code)
 
 bool gs_platform_mouse_pressed(gs_platform_mouse_button_code code)
 {
-    gs_platform_input_t* input = __gs_input();
     if (gs_platform_mouse_down(code) && !gs_platform_was_mouse_down(code))
     {
         return true;
@@ -274,7 +271,6 @@ bool gs_platform_mouse_pressed(gs_platform_mouse_button_code code)
 
 bool gs_platform_mouse_released(gs_platform_mouse_button_code code)
 {
-    gs_platform_input_t* input = __gs_input();
     return (gs_platform_was_mouse_down(code) && !gs_platform_mouse_down(code));
 }
 
@@ -534,8 +530,10 @@ gs_result gs_platform_shutdown(gs_platform_i* pf)
         gs_slot_array_iter_advance(pf->windows, it)
     )
     {
+#if 0
         GLFWwindow* win =  __glfw_window_from_handle(pf, it);
-        // glfwDestroyWindow(win);
+        glfwDestroyWindow(win);
+#endif
     }
 
     // glfwTerminate();
