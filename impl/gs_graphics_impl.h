@@ -683,7 +683,6 @@ gs_handle(gs_graphics_buffer_t) gs_graphics_buffer_create(gs_graphics_buffer_des
                 gs_println("Warning: Uniform buffer must be named for OpenGL.");
             }
 
-            uint32_t ct = (uint32_t)desc->size / (uint32_t)sizeof(gs_graphics_sampler_desc_t);
             gsgl_uniform_t u = gs_default_val();
             u.name = desc->name;
             u.type = GSGL_UNIFORMTYPE_SAMPLER2D;
@@ -891,7 +890,6 @@ void gs_graphics_buffer_update(gs_handle(gs_graphics_buffer_t) hndl, gs_graphics
 
 #define __ogl_push_command(CB, OP_CODE, ...)\
 do {\
-    gsgl_data_t* DATA = (gsgl_data_t*)gs_engine_subsystem(graphics)->user_data;\
     gs_byte_buffer_write(&CB->commands, u32, (u32)OP_CODE);\
     __VA_ARGS__\
     CB->num_commands++;\
@@ -1252,8 +1250,6 @@ void gs_graphics_submit_command_buffer(gs_command_buffer_t* cb)
                             } 
                             else 
                             {
-                                gsgl_buffer_t ibo = gs_slot_array_get(ogl->index_buffers, id);
-
                                 // Store in cache
                                 ogl->cache.ibo = id;
                             }
