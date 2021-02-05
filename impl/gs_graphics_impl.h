@@ -1599,12 +1599,7 @@ void gs_graphics_submit_command_buffer(gs_command_buffer_t* cb)
                     gsgl_vertex_buffer_decl_t vdecl = vbo_idx < gs_dyn_array_size(ogl->cache.vdecls) ? ogl->cache.vdecls[vbo_idx] : ogl->cache.vdecls[0];
                     gsgl_buffer_t vbo = vdecl.vbo;
 
-#if 0
-                    // Manual override. If you manually set divisor/stride/offset, then will not automatically calculate any of those.
-                    bool is_manual = pip->layout[i].stride | pip->layout[i].divisor | pip->layout[i].offset | vdecl.data_type == GS_GRAPHICS_VERTEX_DATA_NONINTERLEAVED;
-#else
                     bool is_manual = pip->layout[i].stride || pip->layout[i].divisor || pip->layout[i].offset || vdecl.data_type == GS_GRAPHICS_VERTEX_DATA_NONINTERLEAVED;
-#endif        
 
                     // Bind buffer
                     glBindBuffer(GL_ARRAY_BUFFER, vbo);
