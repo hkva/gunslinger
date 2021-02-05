@@ -943,7 +943,6 @@ void gs_util_get_file_extension
         uint32_t i = 0; 
         while (*at)
         {
-            char c = *at;
             buffer[ i++ ] = *at++;
         }
         buffer[ i ] = '\0';
@@ -1029,7 +1028,6 @@ void gs_util_string_remove_character
 )
 {
     uint32_t ct = 0;
-    uint32_t str_len = gs_string_length(src);
     const char* at = src;
     while (at && *at != '\0' && ct < buffer_size)
     {
@@ -1052,7 +1050,6 @@ void gs_util_string_replace
     char replace 
 )
 {
-    uint32_t str_len = gs_string_length(source_str);
     const char* at = source_str;
     while (at && *at != '\0')
     {
@@ -3506,8 +3503,6 @@ typedef struct gs_aabb_t
 gs_force_inline
 gs_vec2 gs_aabb_aabb_mtv(gs_aabb_t* a0, gs_aabb_t* a1)
 {
-    gs_vec2 diff = gs_v2(a0->min.x - a1->min.x, a0->min.y - a1->min.y);    
-
     f32 l, r, b, t;
     gs_vec2 mtv = gs_v2(0.f, 0.f);
 
@@ -5304,7 +5299,6 @@ void gs_asset_font_load_from_file(const char* path, void* out, uint32_t point_si
         point_size = 16;
     }
 
-    stbtt_fontinfo font = gs_default_val();
     char* ttf = gs_read_file_contents_into_string_null_term(path, "rb", NULL);
     const u32 w = 512;
     const u32 h = 512;
@@ -5810,10 +5804,6 @@ gs_result gs_engine_run()
     // Main engine loop
     while (true)
     {
-        // TODO(john): Get rid of these...
-        static uint32_t curr_ticks = 0; 
-        static uint32_t prev_ticks = 0;
-
         // Cache platform pointer
         gs_platform_i* platform = gs_engine_subsystem(platform);
 
@@ -6065,7 +6055,6 @@ void gs_engine_quit()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glVertexAttribDivisor(2, 1); // tell OpenGL this is an instanced vertex attribute.
 
-/*
     gltf loading
 
     Mesh Attributes:
