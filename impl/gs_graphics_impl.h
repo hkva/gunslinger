@@ -146,225 +146,211 @@ void gsgl_pipeline_state()
 /* GS/OGL Utilities */
 int32_t gsgl_buffer_usage_to_gl_enum(gs_graphics_buffer_usage_type type)
 {
-    int32_t mode = GL_STATIC_DRAW;
-    switch (type) {
-        default:
-        case GS_GRAPHICS_BUFFER_USAGE_STATIC: mode = GL_STATIC_DRAW; break;
-        case GS_GRAPHICS_BUFFER_USAGE_STREAM: mode = GL_STREAM_DRAW; break;
-        case GS_GRAPHICS_BUFFER_USAGE_DYNAMIC: mode = GL_DYNAMIC_DRAW; break;
-    }   
-    return mode;
+    switch (type)
+    {
+        case GS_GRAPHICS_BUFFER_USAGE_STATIC:   return GL_STATIC_DRAW;
+        case GS_GRAPHICS_BUFFER_USAGE_STREAM:   return GL_STREAM_DRAW;
+        case GS_GRAPHICS_BUFFER_USAGE_DYNAMIC:  return GL_DYNAMIC_DRAW;
+
+        default:                                return GL_STATIC_DRAW;
+    }
 }
 
 uint32_t gsgl_access_type_to_gl_access_type(gs_graphics_access_type type)
 {
-    uint32_t access = GL_WRITE_ONLY;
     switch (type)
     {
-        case GS_GRAPHICS_ACCESS_WRITE_ONLY:  access = GL_WRITE_ONLY;  break;
-        case GS_GRAPHICS_ACCESS_READ_ONLY:   access = GL_READ_ONLY;   break;
-        case GS_GRAPHICS_ACCESS_READ_WRITE:  access = GL_READ_WRITE;  break;
-        default: break;
+        case GS_GRAPHICS_ACCESS_WRITE_ONLY: return GL_WRITE_ONLY;
+        case GS_GRAPHICS_ACCESS_READ_ONLY:  return GL_READ_ONLY;
+        case GS_GRAPHICS_ACCESS_READ_WRITE: return GL_READ_WRITE;
+
+        default:                            return GL_WRITE_ONLY;
     }
-    return access;
 }
 
 uint32_t gsgl_texture_format_to_gl_texture_format(gs_graphics_texture_format_type type)
 {
-    uint32_t format = GL_RGBA32F;
     switch (type)
     {
-        case GS_GRAPHICS_TEXTURE_FORMAT_RGBA8:              format = GL_RGBA8;              break;
-        case GS_GRAPHICS_TEXTURE_FORMAT_RGB8:               format = GL_RGB8;               break;
-        case GS_GRAPHICS_TEXTURE_FORMAT_RGBA16F:            format = GL_RGBA16F;            break;
-        case GS_GRAPHICS_TEXTURE_FORMAT_RGBA32F:            format = GL_RGBA32F;            break;
-        case GS_GRAPHICS_TEXTURE_FORMAT_R8:                 format = GL_R8;                 break;
-        default:                                                                            break;
+        case GS_GRAPHICS_TEXTURE_FORMAT_RGBA8:      return GL_RGBA8;
+        case GS_GRAPHICS_TEXTURE_FORMAT_RGB8:       return GL_RGB8;
+        case GS_GRAPHICS_TEXTURE_FORMAT_RGBA16F:    return GL_RGBA16F;
+        case GS_GRAPHICS_TEXTURE_FORMAT_RGBA32F:    return GL_RGBA32F;
+        case GS_GRAPHICS_TEXTURE_FORMAT_R8:         return GL_R8;
+
+        default:                                    return GL_RGBA32F;
     }
-    return format;
 }
 
 uint32_t gsgl_shader_stage_to_gl_stage(gs_graphics_shader_stage_type type)
 {
-    uint32_t stage = GL_VERTEX_SHADER;
-    switch (type) {
-        default:
-        case GS_GRAPHICS_SHADER_STAGE_VERTEX: stage = GL_VERTEX_SHADER; break;
-        case GS_GRAPHICS_SHADER_STAGE_FRAGMENT: stage = GL_FRAGMENT_SHADER; break;
-        case GS_GRAPHICS_SHADER_STAGE_COMPUTE: stage = GL_COMPUTE_SHADER; break;
+    switch (type)
+    {
+        case GS_GRAPHICS_SHADER_STAGE_VERTEX:   return GL_VERTEX_SHADER;
+        case GS_GRAPHICS_SHADER_STAGE_FRAGMENT: return GL_FRAGMENT_SHADER;
+        case GS_GRAPHICS_SHADER_STAGE_COMPUTE:  return GL_COMPUTE_SHADER;
+
+        default:                                return GL_VERTEX_SHADER;
     }
-    return stage;
 }
 
 uint32_t gsgl_primitive_to_gl_primitive(gs_graphics_primitive_type type)
-{
-    uint32_t prim = GL_TRIANGLES;   
-    switch (type) {
-        default:
-        case GS_GRAPHICS_PRIMITIVE_TRIANGLES: prim = GL_TRIANGLES; break;
-        case GS_GRAPHICS_PRIMITIVE_LINES: prim = GL_LINES; break;
-        case GS_GRAPHICS_PRIMITIVE_QUADS: prim = GL_QUADS; break;
+{ 
+    switch (type)
+    {
+        case GS_GRAPHICS_PRIMITIVE_TRIANGLES:   return GL_TRIANGLES;
+        case GS_GRAPHICS_PRIMITIVE_LINES:       return GL_LINES;
+        case GS_GRAPHICS_PRIMITIVE_QUADS:       return GL_QUADS;
+
+        default:                                return GL_TRIANGLES;
     }
-    return prim;
 }
 
 uint32_t gsgl_blend_equation_to_gl_blend_eq(gs_graphics_blend_equation_type eq)
 {
-    uint32_t beq = GL_FUNC_ADD; 
-    switch (eq) {
-        default:
-        case GS_GRAPHICS_BLEND_EQUATION_ADD:                beq = GL_FUNC_ADD; break;
-        case GS_GRAPHICS_BLEND_EQUATION_SUBTRACT:           beq = GL_FUNC_SUBTRACT; break;
-        case GS_GRAPHICS_BLEND_EQUATION_REVERSE_SUBTRACT:   beq = GL_FUNC_REVERSE_SUBTRACT; break;
-        case GS_GRAPHICS_BLEND_EQUATION_MIN:                beq = GL_MIN; break;
-        case GS_GRAPHICS_BLEND_EQUATION_MAX:                beq = GL_MAX; break;
-    };
+    switch (eq)
+    {
+        case GS_GRAPHICS_BLEND_EQUATION_ADD:                return GL_FUNC_ADD;
+        case GS_GRAPHICS_BLEND_EQUATION_SUBTRACT:           return GL_FUNC_SUBTRACT;
+        case GS_GRAPHICS_BLEND_EQUATION_REVERSE_SUBTRACT:   return GL_FUNC_REVERSE_SUBTRACT;
+        case GS_GRAPHICS_BLEND_EQUATION_MIN:                return GL_MIN;
+        case GS_GRAPHICS_BLEND_EQUATION_MAX:                return GL_MAX;
 
-    return beq;
+        default:                                            return GL_FUNC_ADD;
+    };
 }
 
 uint32_t gsgl_blend_mode_to_gl_blend_mode(gs_graphics_blend_mode_type type, uint32_t def)
 {
-    uint32_t mode = def;    
     switch (type) {
-        case GS_GRAPHICS_BLEND_MODE_ZERO: mode = GL_ZERO; break;
-        case GS_GRAPHICS_BLEND_MODE_ONE: mode = GL_ONE; break;
-        case GS_GRAPHICS_BLEND_MODE_SRC_COLOR: mode = GL_SRC_COLOR; break;
-        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_SRC_COLOR: mode = GL_ONE_MINUS_SRC_COLOR; break;
-        case GS_GRAPHICS_BLEND_MODE_DST_COLOR: mode = GL_DST_COLOR; break;
-        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_DST_COLOR: mode = GL_ONE_MINUS_DST_COLOR; break;
-        case GS_GRAPHICS_BLEND_MODE_SRC_ALPHA: mode = GL_SRC_ALPHA; break;
-        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_SRC_ALPHA: mode = GL_ONE_MINUS_SRC_ALPHA; break;
-        case GS_GRAPHICS_BLEND_MODE_DST_ALPHA: mode = GL_DST_ALPHA; break;
-        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_DST_ALPHA: mode = GL_ONE_MINUS_DST_ALPHA; break;
-        case GS_GRAPHICS_BLEND_MODE_CONSTANT_COLOR: mode = GL_CONSTANT_COLOR; break;
-        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_CONSTANT_COLOR: mode = GL_ONE_MINUS_CONSTANT_COLOR; break;
-        case GS_GRAPHICS_BLEND_MODE_CONSTANT_ALPHA: mode = GL_CONSTANT_ALPHA; break;
-        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_CONSTANT_ALPHA: mode = GL_ONE_MINUS_CONSTANT_ALPHA; break;
-    }   
-    return mode;
+        case GS_GRAPHICS_BLEND_MODE_ZERO:                       return GL_ZERO;
+        case GS_GRAPHICS_BLEND_MODE_ONE:                        return GL_ONE;
+        case GS_GRAPHICS_BLEND_MODE_SRC_COLOR:                  return GL_SRC_COLOR;
+        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_SRC_COLOR:        return GL_ONE_MINUS_SRC_COLOR;
+        case GS_GRAPHICS_BLEND_MODE_DST_COLOR:                  return GL_DST_COLOR;
+        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_DST_COLOR:        return GL_ONE_MINUS_DST_COLOR;
+        case GS_GRAPHICS_BLEND_MODE_SRC_ALPHA:                  return GL_SRC_ALPHA;
+        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_SRC_ALPHA:        return GL_ONE_MINUS_SRC_ALPHA;
+        case GS_GRAPHICS_BLEND_MODE_DST_ALPHA:                  return GL_DST_ALPHA;
+        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_DST_ALPHA:        return GL_ONE_MINUS_DST_ALPHA;
+        case GS_GRAPHICS_BLEND_MODE_CONSTANT_COLOR:             return GL_CONSTANT_COLOR;
+        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_CONSTANT_COLOR:   return GL_ONE_MINUS_CONSTANT_COLOR;
+        case GS_GRAPHICS_BLEND_MODE_CONSTANT_ALPHA:             return GL_CONSTANT_ALPHA;
+        case GS_GRAPHICS_BLEND_MODE_ONE_MINUS_CONSTANT_ALPHA:   return GL_ONE_MINUS_CONSTANT_ALPHA;
+        default:                                                return def;
+    }
 }
 
 uint32_t gsgl_cull_face_to_gl_cull_face(gs_graphics_face_culling_type type)
 {
-    uint32_t fc = GL_BACK;
     switch (type) {
-        default:
-        case GS_GRAPHICS_FACE_CULLING_BACK: fc = GL_BACK; break;
-        case GS_GRAPHICS_FACE_CULLING_FRONT: fc = GL_FRONT; break;
-        case GS_GRAPHICS_FACE_CULLING_FRONT_AND_BACK: fc = GL_FRONT_AND_BACK; break;
+        case GS_GRAPHICS_FACE_CULLING_BACK:             return GL_BACK;
+        case GS_GRAPHICS_FACE_CULLING_FRONT:            return GL_FRONT;
+        case GS_GRAPHICS_FACE_CULLING_FRONT_AND_BACK:   return GL_FRONT_AND_BACK;
+        default:                                        return GL_BACK;
     }
-    return fc;
 }   
 
 uint32_t gsgl_winding_order_to_gl_winding_order(gs_graphics_winding_order_type type)
-{
-    uint32_t wo = GL_CCW;   
+{  
     switch (type)
     {
-        case GS_GRAPHICS_WINDING_ORDER_CCW: wo = GL_CCW; break;
-        case GS_GRAPHICS_WINDING_ORDER_CW: wo = GL_CW; break;
+        case GS_GRAPHICS_WINDING_ORDER_CCW: return GL_CCW;
+        case GS_GRAPHICS_WINDING_ORDER_CW:  return GL_CW;;
+        default:                            return GL_CCW;
     }
-    return wo;
 }
 
 uint32_t gsgl_depth_func_to_gl_depth_func(gs_graphics_depth_func_type type)
 {
-    uint32_t func = GL_LESS;
     switch (type) {
-        default:
-        case GS_GRAPHICS_DEPTH_FUNC_LESS: func = GL_LESS; break;
-        case GS_GRAPHICS_DEPTH_FUNC_NEVER: func = GL_NEVER; break; 
-        case GS_GRAPHICS_DEPTH_FUNC_EQUAL: func = GL_EQUAL; break;
-        case GS_GRAPHICS_DEPTH_FUNC_LEQUAL: func = GL_LEQUAL; break;
-        case GS_GRAPHICS_DEPTH_FUNC_GREATER: func = GL_GREATER; break;
-        case GS_GRAPHICS_DEPTH_FUNC_NOTEQUAL: func = GL_NOTEQUAL; break;
-        case GS_GRAPHICS_DEPTH_FUNC_GEQUAL: func = GL_GEQUAL; break;
-        case GS_GRAPHICS_DEPTH_FUNC_ALWAYS: func = GL_ALWAYS; break;
+        case GS_GRAPHICS_DEPTH_FUNC_LESS:       return GL_LESS;
+        case GS_GRAPHICS_DEPTH_FUNC_NEVER:      return GL_NEVER; 
+        case GS_GRAPHICS_DEPTH_FUNC_EQUAL:      return GL_EQUAL;
+        case GS_GRAPHICS_DEPTH_FUNC_LEQUAL:     return GL_LEQUAL;
+        case GS_GRAPHICS_DEPTH_FUNC_GREATER:    return GL_GREATER;
+        case GS_GRAPHICS_DEPTH_FUNC_NOTEQUAL:   return GL_NOTEQUAL;
+        case GS_GRAPHICS_DEPTH_FUNC_GEQUAL:     return GL_GEQUAL;
+        case GS_GRAPHICS_DEPTH_FUNC_ALWAYS:     return GL_ALWAYS;
+        default:                                return GL_LESS;
     }
-    return func;
 }
 
 uint32_t gsgl_stencil_func_to_gl_stencil_func(gs_graphics_stencil_func_type type)
 {
-    uint32_t func = GL_ALWAYS;
     switch (type) {
-        default:
-        case GS_GRAPHICS_STENCIL_FUNC_LESS: func = GL_LESS; break;
-        case GS_GRAPHICS_STENCIL_FUNC_NEVER: func = GL_NEVER; break; 
-        case GS_GRAPHICS_STENCIL_FUNC_EQUAL: func = GL_EQUAL; break;
-        case GS_GRAPHICS_STENCIL_FUNC_LEQUAL: func = GL_LEQUAL; break;
-        case GS_GRAPHICS_STENCIL_FUNC_GREATER: func = GL_GREATER; break;
-        case GS_GRAPHICS_STENCIL_FUNC_NOTEQUAL: func = GL_NOTEQUAL; break;
-        case GS_GRAPHICS_STENCIL_FUNC_GEQUAL: func = GL_GEQUAL; break;
-        case GS_GRAPHICS_STENCIL_FUNC_ALWAYS: func = GL_ALWAYS; break;
+        case GS_GRAPHICS_STENCIL_FUNC_LESS:     return GL_LESS;
+        case GS_GRAPHICS_STENCIL_FUNC_NEVER:    return GL_NEVER; 
+        case GS_GRAPHICS_STENCIL_FUNC_EQUAL:    return GL_EQUAL;
+        case GS_GRAPHICS_STENCIL_FUNC_LEQUAL:   return GL_LEQUAL;
+        case GS_GRAPHICS_STENCIL_FUNC_GREATER:  return GL_GREATER;
+        case GS_GRAPHICS_STENCIL_FUNC_NOTEQUAL: return GL_NOTEQUAL;
+        case GS_GRAPHICS_STENCIL_FUNC_GEQUAL:   return GL_GEQUAL;
+        case GS_GRAPHICS_STENCIL_FUNC_ALWAYS:   return GL_ALWAYS;
+
+        default:                                return GL_ALWAYS;
     }
-    return func;
 }
 
 uint32_t gsgl_stencil_op_to_gl_stencil_op(gs_graphics_stencil_op_type type)
 {
-    uint32_t op = GL_KEEP;
     switch (type) {
-        default:
-        case GS_GRAPHICS_STENCIL_OP_KEEP: op = GL_KEEP; break;
-        case GS_GRAPHICS_STENCIL_OP_ZERO: op = GL_ZERO; break;
-        case GS_GRAPHICS_STENCIL_OP_REPLACE: op = GL_REPLACE; break;
-        case GS_GRAPHICS_STENCIL_OP_INCR: op = GL_INCR; break;
-        case GS_GRAPHICS_STENCIL_OP_INCR_WRAP: op = GL_INCR_WRAP; break;
-        case GS_GRAPHICS_STENCIL_OP_DECR: op = GL_DECR; break;
-        case GS_GRAPHICS_STENCIL_OP_DECR_WRAP: op = GL_DECR_WRAP; break;
-        case GS_GRAPHICS_STENCIL_OP_INVERT: op = GL_INVERT; break;
+        case GS_GRAPHICS_STENCIL_OP_KEEP:       return GL_KEEP;
+        case GS_GRAPHICS_STENCIL_OP_ZERO:       return GL_ZERO;
+        case GS_GRAPHICS_STENCIL_OP_REPLACE:    return GL_REPLACE;
+        case GS_GRAPHICS_STENCIL_OP_INCR:       return GL_INCR;
+        case GS_GRAPHICS_STENCIL_OP_INCR_WRAP:  return GL_INCR_WRAP;
+        case GS_GRAPHICS_STENCIL_OP_DECR:       return GL_DECR;
+        case GS_GRAPHICS_STENCIL_OP_DECR_WRAP:  return GL_DECR_WRAP;
+        case GS_GRAPHICS_STENCIL_OP_INVERT:     return GL_INVERT;
+
+        default:                                return GL_KEEP;
     }
-    return op;  
 }
 
 gsgl_uniform_type gsgl_uniform_type_to_gl_uniform_type(gs_graphics_uniform_type gstype)
 {
-    gsgl_uniform_type type = GSGL_UNIFORMTYPE_FLOAT;
     switch (gstype) {
-        default:
-        case GS_GRAPHICS_UNIFORM_FLOAT: type = GSGL_UNIFORMTYPE_FLOAT; break;
-        case GS_GRAPHICS_UNIFORM_INT: type = GSGL_UNIFORMTYPE_INT; break;
-        case GS_GRAPHICS_UNIFORM_VEC2: type = GSGL_UNIFORMTYPE_VEC2; break;
-        case GS_GRAPHICS_UNIFORM_VEC3: type = GSGL_UNIFORMTYPE_VEC3; break;
-        case GS_GRAPHICS_UNIFORM_VEC4: type = GSGL_UNIFORMTYPE_VEC4; break;
-        case GS_GRAPHICS_UNIFORM_MAT4: type = GSGL_UNIFORMTYPE_MAT4; break;
+        case GS_GRAPHICS_UNIFORM_FLOAT: return GSGL_UNIFORMTYPE_FLOAT;
+        case GS_GRAPHICS_UNIFORM_INT:   return GSGL_UNIFORMTYPE_INT;
+        case GS_GRAPHICS_UNIFORM_VEC2:  return GSGL_UNIFORMTYPE_VEC2;
+        case GS_GRAPHICS_UNIFORM_VEC3:  return GSGL_UNIFORMTYPE_VEC3;
+        case GS_GRAPHICS_UNIFORM_VEC4:  return GSGL_UNIFORMTYPE_VEC4;
+        case GS_GRAPHICS_UNIFORM_MAT4:  return GSGL_UNIFORMTYPE_MAT4;
+
+        default:                        return GSGL_UNIFORMTYPE_FLOAT;
     }
-    return type;
 } 
 
 uint32_t gsgl_index_buffer_size_to_gl_index_type(size_t sz)
 {
-    uint32_t type = GL_UNSIGNED_INT;
     switch (sz) {
-        default:
-        case 4: type = GL_UNSIGNED_INT; break; 
-        case 2: type = GL_UNSIGNED_SHORT; break;
-        case 1: type = GL_UNSIGNED_BYTE; break;
+        case 4:     return GL_UNSIGNED_INT; 
+        case 2:     return GL_UNSIGNED_SHORT;
+        case 1:     return GL_UNSIGNED_BYTE;
+
+        default:    return GL_UNSIGNED_INT;
     }
-    return type;
 }
 
 size_t gsgl_get_byte_size_of_vertex_attribute(gs_graphics_vertex_attribute_type type)
 {
-    size_t byte_size = 0; 
     switch (type) {
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_FLOAT4:   { byte_size = sizeof(float32_t) * 4; } break;
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_FLOAT3:   { byte_size = sizeof(float32_t) * 3; } break;
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_FLOAT2:   { byte_size = sizeof(float32_t) * 2; } break;
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_FLOAT:    { byte_size = sizeof(float32_t) * 1; } break;
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_UINT4:    { byte_size = sizeof(uint32_t) * 4; } break;
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_UINT3:    { byte_size = sizeof(uint32_t) * 3; } break;
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_UINT2:    { byte_size = sizeof(uint32_t) * 2; } break;
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_UINT:     { byte_size = sizeof(uint32_t) * 1; } break;
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_BYTE4:    { byte_size = sizeof(uint8_t) * 4; } break;
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_BYTE3:    { byte_size = sizeof(uint8_t) * 3; } break;
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_BYTE2:    { byte_size = sizeof(uint8_t) * 2; } break;
-        case GS_GRAPHICS_VERTEX_ATTRIBUTE_BYTE:     { byte_size = sizeof(uint8_t) * 1; } break;
-    } 
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_FLOAT4:   return sizeof(float32_t) * 4;
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_FLOAT3:   return sizeof(float32_t) * 3;
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_FLOAT2:   return sizeof(float32_t) * 2;
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_FLOAT:    return sizeof(float32_t) * 1;
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_UINT4:    return sizeof(uint32_t) * 4;
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_UINT3:    return sizeof(uint32_t) * 3;
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_UINT2:    return sizeof(uint32_t) * 2;
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_UINT:     return sizeof(uint32_t) * 1;
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_BYTE4:    return sizeof(uint8_t) * 4;
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_BYTE3:    return sizeof(uint8_t) * 3;
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_BYTE2:    return sizeof(uint8_t) * 2;
+        case GS_GRAPHICS_VERTEX_ATTRIBUTE_BYTE:     return sizeof(uint8_t) * 1;
 
-    return byte_size;
+        default:                                    return 0;
+    }
 }
 
 
@@ -400,19 +386,16 @@ size_t  gsgl_get_vertex_attr_byte_offest(gs_dyn_array(gs_graphics_vertex_attribu
 
 size_t gsgl_uniform_data_size_in_bytes(gs_graphics_uniform_type type)
 {
-    size_t sz = 0;
     switch (type) {
-        case GS_GRAPHICS_UNIFORM_FLOAT: sz = sizeof(float); break;
-        case GS_GRAPHICS_UNIFORM_INT:   sz = sizeof(int32_t); break;
-        case GS_GRAPHICS_UNIFORM_VEC2:  sz = 2 * sizeof(float); break;
-        case GS_GRAPHICS_UNIFORM_VEC3:  sz = 3 * sizeof(float); break;
-        case GS_GRAPHICS_UNIFORM_VEC4:  sz = 4 * sizeof(float); break;
-        case GS_GRAPHICS_UNIFORM_MAT4:  sz = 16 * sizeof(float); break;
-        default: {
-            sz = 0;
-        } break;
+        case GS_GRAPHICS_UNIFORM_FLOAT: return sizeof(float);
+        case GS_GRAPHICS_UNIFORM_INT:   return sizeof(int32_t);
+        case GS_GRAPHICS_UNIFORM_VEC2:  return 2 * sizeof(float);
+        case GS_GRAPHICS_UNIFORM_VEC3:  return 3 * sizeof(float);
+        case GS_GRAPHICS_UNIFORM_VEC4:  return 4 * sizeof(float);
+        case GS_GRAPHICS_UNIFORM_MAT4:  return 16 * sizeof(float);
+
+        default:                        return 0;
     }
-    return sz;
 }
 
 /* Graphics Interface Creation / Initialization / Shutdown / Destruction */
@@ -499,15 +482,15 @@ gs_result gs_graphics_init(gs_graphics_i* graphics)
     if (info->compute.available)
     {
         // Work group counts
-        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 0, &info->compute.max_work_group_count[0]);
-        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 1, &info->compute.max_work_group_count[1]);
-        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 2, &info->compute.max_work_group_count[2]);
+        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 0, (GLint*)&info->compute.max_work_group_count[0]);
+        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 1, (GLint*)&info->compute.max_work_group_count[1]);
+        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 2, (GLint*)&info->compute.max_work_group_count[2]);
         // Work group sizes
-        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 0, &info->compute.max_work_group_size[0]);
-        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 1, &info->compute.max_work_group_size[1]);
-        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 2, &info->compute.max_work_group_size[2]);
+        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 0, (GLint*)&info->compute.max_work_group_size[0]);
+        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 1, (GLint*)&info->compute.max_work_group_size[1]);
+        glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 2, (GLint*)&info->compute.max_work_group_size[2]);
         // Work group invocations
-        glGetIntegerv(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, &info->compute.max_work_group_invocations);
+        glGetIntegerv(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, (GLint*)&info->compute.max_work_group_invocations);
     }
 
     return GS_RESULT_SUCCESS;
@@ -941,8 +924,6 @@ void gs_graphics_texture_request_update(gs_command_buffer_t* cb, gs_handle(gs_gr
 
 void gs_graphics_buffer_request_update(gs_command_buffer_t* cb, gs_handle(gs_graphics_buffer_t) hndl, gs_graphics_buffer_desc_t* desc)
 {
-    gsgl_data_t* ogl = (gsgl_data_t*)gs_engine_subsystem(graphics)->user_data;
-
     // Need to just store all buffers into single buffer slot array. This is goofy.
     if (!hndl.id) return;
 
@@ -1618,8 +1599,12 @@ void gs_graphics_submit_command_buffer(gs_command_buffer_t* cb)
                     gsgl_vertex_buffer_decl_t vdecl = vbo_idx < gs_dyn_array_size(ogl->cache.vdecls) ? ogl->cache.vdecls[vbo_idx] : ogl->cache.vdecls[0];
                     gsgl_buffer_t vbo = vdecl.vbo;
 
+#if 0
                     // Manual override. If you manually set divisor/stride/offset, then will not automatically calculate any of those.
                     bool is_manual = pip->layout[i].stride | pip->layout[i].divisor | pip->layout[i].offset | vdecl.data_type == GS_GRAPHICS_VERTEX_DATA_NONINTERLEAVED;
+#else
+                    bool is_manual = pip->layout[i].stride || pip->layout[i].divisor || pip->layout[i].offset || vdecl.data_type == GS_GRAPHICS_VERTEX_DATA_NONINTERLEAVED;
+#endif        
 
                     // Bind buffer
                     glBindBuffer(GL_ARRAY_BUFFER, vbo);
