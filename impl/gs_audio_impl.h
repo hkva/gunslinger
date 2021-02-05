@@ -400,10 +400,6 @@ void ma_audio_commit(ma_device* device, void* output, const void* input, ma_uint
     miniaudio_data_t* ma = (miniaudio_data_t*)audio->user_data;
     memset(output, 0, frame_count * device->playback.channels * ma_get_bytes_per_sample(device->playback.format));
 
-    // Only destroy 32 at a time
-    u32 destroy_count = 0;
-    gs_handle(gs_audio_instance_t) handles_to_destroy[32];
-
     if (!audio->instances) 
         return;
 
@@ -520,8 +516,6 @@ gs_result gs_audio_init(gs_audio_i* audio)
     // Set user data of audio to be miniaudio data
     audio->user_data = gs_malloc_init(miniaudio_data_t);
     miniaudio_data_t* output = (miniaudio_data_t*)audio->user_data;
-
-    ma_result result = gs_default_val();
 
       // Init audio device
     // NOTE: Using the default device. Format is floating point because it simplifies mixing.
