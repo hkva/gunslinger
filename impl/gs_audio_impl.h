@@ -115,7 +115,7 @@ bool32_t gs_audio_load_mp3_data_from_file
 )
 {
     // Decode entire mp3 
-    uint64_t total_pcm_frame_count = 0;
+    drmp3_uint64 total_pcm_frame_count = 0;
     drmp3_config cfg = gs_default_val();
     *samples = drmp3_open_file_and_read_pcm_frames_s16(
         file_path, &cfg, &total_pcm_frame_count, NULL);
